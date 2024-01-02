@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,8 +9,7 @@ public class PlayerController : MonoBehaviour
   private float leftBoundary = -18.77f;
   private float rightBoundary = 17f;
   private float upperBoundary = 12.35f;
-  // may need to adjust once ground is added
-  private float lowerBoundary = -5f;
+  private float lowerBoundary = -6.337812f;
 
   // Start is called before the first frame update
   void Start()
@@ -25,13 +25,22 @@ public class PlayerController : MonoBehaviour
 
     transform.Translate(horizontalInput * speed * Time.deltaTime * Vector3.right);
     transform.Translate(verticalInput * speed * Time.deltaTime * Vector3.up);
-  }
 
-  private void OnTriggerEnter(Collider other)
-  {
-    if (other.CompareTag("Enemy"))
+    if (transform.position.x < leftBoundary)
     {
-      Debug.Log("CRASH!");
+      transform.position = new Vector3(leftBoundary, transform.position.y, transform.position.z);
+    }
+    if (transform.position.x > rightBoundary)
+    {
+      transform.position = new Vector3(rightBoundary, transform.position.y, transform.position.z);
+    }
+    if (transform.position.y > upperBoundary)
+    {
+      transform.position = new Vector3(transform.position.x, upperBoundary, transform.position.z);
+    }
+    if (transform.position.y < lowerBoundary)
+    {
+      transform.position = new Vector3(transform.position.x, lowerBoundary, transform.position.z);
     }
   }
 }
